@@ -1,0 +1,36 @@
+Music Genre Classification - Naive Bayes Results
+=============================================
+
+Dataset Summary:
+Total number of samples: 4800
+
+Samples per genre:
+classical: 600
+disco: 600
+hiphop: 600
+jazz: 600
+metal: 600
+pop: 600
+reggae: 600
+rock: 600
+
+Test Set Accuracy: 0.5490
+
+Cross-validation scores: [0.5859375  0.57161458 0.54817708 0.55598958 0.55859375]
+Average CV score: 0.5641 (+/- 0.0266)
+
+Classification Report:
+              precision    recall  f1-score   support
+
+   classical       0.85      0.87      0.86       120
+       disco       0.31      0.23      0.26       120
+      hiphop       0.38      0.65      0.48       120
+        jazz       0.71      0.62      0.66       120
+       metal       0.62      0.82      0.71       120
+         pop       0.54      0.77      0.64       120
+      reggae       0.50      0.21      0.29       120
+        rock       0.47      0.23      0.30       120
+
+    accuracy                           0.55       960
+   macro avg       0.55      0.55      0.53       960
+weighted avg       0.55      0.55      0.53       960
