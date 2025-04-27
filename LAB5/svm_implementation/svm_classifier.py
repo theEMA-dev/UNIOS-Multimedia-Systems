@@ -228,11 +228,16 @@ def main():
     conf_df.to_csv("LAB5/svm_implementation/confusion_matrix.csv")
     print("Confusion matrix saved to 'confusion_matrix.csv'")
     
-    # Plot confusion matrix
-    disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix, display_labels=mappings)
-    disp.plot(cmap=plt.cm.Blues, values_format='d')
-    plt.xticks(rotation=45)
-    plt.title("SVM Confusion Matrix for Music Genre Classification")
+    # Normalize confusion matrix for plotting only
+    conf_matrix_normalized = conf_matrix.astype('float') / conf_matrix.sum(axis=1)[:, np.newaxis]
+    
+    # Plot normalized confusion matrix
+    plt.figure(figsize=(16, 14))
+    disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix_normalized, display_labels=mappings)
+    disp.plot(cmap=plt.cm.Blues, values_format='.2f')  # Show 2 decimal places
+    plt.xticks(rotation=45, ha='right')
+    plt.yticks(rotation=0)
+    plt.title("Normalized SVM Confusion Matrix")
     plt.tight_layout()
     plt.show()
     
