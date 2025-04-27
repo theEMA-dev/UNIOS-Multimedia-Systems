@@ -1,0 +1,20 @@
+Music Genre Classification - SVM Results
+=====================================
+
+Accuracy: 0.9083
+
+Classification Report:
+              precision    recall  f1-score   support
+
+   classical       0.92      0.97      0.94        60
+       disco       0.86      0.83      0.85        60
+      hiphop       0.92      0.90      0.91        60
+        jazz       0.95      0.92      0.93        60
+       metal       0.95      0.97      0.96        60
+         pop       0.95      0.97      0.96        60
+      reggae       0.86      0.90      0.88        60
+        rock       0.86      0.82      0.84        60
+
+    accuracy                           0.91       480
+   macro avg       0.91      0.91      0.91       480
+weighted avg       0.91      0.91      0.91       480
