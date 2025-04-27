@@ -1,9 +1,0 @@
-,classical,disco,hiphop,jazz,metal,pop,reggae,rock
-classical,58,1,0,1,0,0,0,0
-disco,0,50,3,0,1,1,2,3
-hiphop,0,0,54,0,1,1,1,3
-jazz,4,0,0,55,0,0,1,0
-metal,0,1,0,0,58,0,0,1
-pop,0,1,0,0,0,58,1,0
-reggae,1,3,1,0,0,0,54,1
-rock,0,2,1,2,1,1,4,49

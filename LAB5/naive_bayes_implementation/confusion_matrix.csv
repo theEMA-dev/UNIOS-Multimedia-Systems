@@ -1,0 +1,10 @@
+,classical,disco,doesent belong anywhere,hiphop,jazz,metal,pop,reggae,rock
+classical,45,0,4,0,9,0,0,0,2
+disco,1,21,0,6,5,7,14,0,6
+doesent belong anywhere,1,1,109,3,2,0,0,4,0
+hiphop,0,0,3,28,0,16,13,0,0
+jazz,10,5,0,1,40,0,2,0,2
+metal,0,1,0,3,0,44,0,1,11
+pop,0,6,0,5,0,0,48,1,0
+reggae,0,1,1,14,0,4,14,26,0
+rock,0,22,2,3,2,5,7,1,18

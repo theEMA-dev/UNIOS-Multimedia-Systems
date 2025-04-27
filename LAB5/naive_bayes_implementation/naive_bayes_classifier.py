@@ -9,17 +9,48 @@ import matplotlib.pyplot as plt
 
 def load_and_process_features(json_path):
     # Load data from JSON file
-    with open(json_path, "r") as fp:
-        data = json.load(fp)
+    try:
+        # Read the file in binary mode with a large buffer
+        with open(json_path, 'rb') as fp:
+            # Use a large buffer size for reading
+            buffer_size = 64 * 1024 * 1024  # 64MB buffer
+            chunks = []
+            
+            while True:
+                chunk = fp.read(buffer_size)
+                if not chunk:
+                    break
+                chunks.append(chunk)
+            
+            # Combine chunks and decode
+            json_str = b''.join(chunks).decode('utf-8')
+            
+            # Parse JSON
+            data = json.loads(json_str)
+            
+    except json.JSONDecodeError as e:
+        print(f"JSON decode error: {e}")
+        raise
+    except Exception as e:
+        print(f"Error loading file: {e}")
+        raise
     
     # Convert to numpy arrays
-    X_mfcc = np.array(data["mfcc"])    # Shape: (4800, 13, 216)
-    X_chroma = np.array(data["chroma"])  # Shape: (4800, 12, 216)
+    X_mfcc = np.array(data["mfcc"])           # Shape: (4800, 13, 216)
+    X_chroma = np.array(data["chroma"])       # Shape: (4800, 12, 216)
+    X_centroid = np.array(data["spectral_centroid"])   # Shape: (4800, 1, 216)
+    X_bandwidth = np.array(data["spectral_bandwidth"]) # Shape: (4800, 1, 216)
+    X_contrast = np.array(data["spectral_contrast"])   # Shape: (4800, 1, 216)
+    X_zcr = np.array(data["zcr"])            # Shape: (4800, 1, 216)
     y = np.array(data["labels"])
     mappings = data["mappings"]
     
     print(f"Original MFCC shape: {X_mfcc.shape}")
     print(f"Original Chroma shape: {X_chroma.shape}")
+    print(f"Original Centroid shape: {X_centroid.shape}")
+    print(f"Original Bandwidth shape: {X_bandwidth.shape}")
+    print(f"Original Contrast shape: {X_contrast.shape}")
+    print(f"Original ZCR shape: {X_zcr.shape}")
     
     # Extract statistics for each coefficient/pitch class across time frames
     def extract_stats(features):
@@ -41,19 +72,42 @@ def load_and_process_features(json_path):
     # Process Chroma features (12 pitch classes × 5 stats = 60 features)
     chroma_processed = extract_stats(X_chroma)
     
-    # Combine features
-    X_combined = np.hstack([mfcc_processed, chroma_processed])
+    # Process Centroid features (1 value × 5 stats = 5 features)
+    centroid_processed = extract_stats(X_centroid)
+    
+    # Process Bandwidth features (1 value × 5 stats = 5 features)
+    bandwidth_processed = extract_stats(X_bandwidth)
+    
+    # Process Contrast features (1 value × 5 stats = 5 features)
+    contrast_processed = extract_stats(X_contrast)
+    
+    # Process ZCR features (1 value × 5 stats = 5 features)
+    zcr_processed = extract_stats(X_zcr)
+    
+    # Combine all features
+    X_combined = np.hstack([
+        mfcc_processed,      # 65 features
+        chroma_processed,    # 60 features
+        centroid_processed,  # 5 features
+        bandwidth_processed, # 5 features
+        contrast_processed,  # 5 features
+        zcr_processed       # 5 features
+    ])
     
     print(f"MFCC features shape: {mfcc_processed.shape}")
     print(f"Chroma features shape: {chroma_processed.shape}")
+    print(f"Centroid features shape: {centroid_processed.shape}")
+    print(f"Bandwidth features shape: {bandwidth_processed.shape}")
+    print(f"Contrast features shape: {contrast_processed.shape}")
+    print(f"ZCR features shape: {zcr_processed.shape}")
     print(f"Final combined shape: {X_combined.shape}")
     
     return X_combined, y, mappings
 
 def main():
     # Configuration
-    TRAIN_PATH = "d:/Dev/UNIOS-Multimedia-Systems/LAB5/test.json"
-    TEST_PATH = "d:/Dev/UNIOS-Multimedia-Systems/LAB5/test.json"
+    TRAIN_PATH = "d:/Dev/UNIOS-Multimedia-Systems/LAB5/train_v2.json"
+    TEST_PATH = "d:/Dev/UNIOS-Multimedia-Systems/LAB5/test_v2.json"
     
     # Load and process training data
     print("\nLoading training data...")
@@ -101,7 +155,7 @@ def main():
     
     # Save results to a file
     print("\nSaving results to 'naive_bayes_results.txt'...")
-    with open("LAB5/naive_bayes_results.txt", "w") as f:
+    with open("LAB5/naive_bayes_implementation/naive_bayes_results.txt", "w") as f:
         f.write("Music Genre Classification - Naive Bayes Results\n")
         f.write("=============================================\n\n")
         f.write("Dataset Summary:\n")
@@ -122,7 +176,7 @@ def main():
     
     # Save confusion matrix
     conf_df = pd.DataFrame(conf_matrix, index=mappings, columns=mappings)
-    conf_df.to_csv("LAB5/confusion_matrix.csv")
+    conf_df.to_csv("LAB5/naive_bayes_implementation/confusion_matrix.csv")
     print("Confusion matrix saved to 'confusion_matrix.csv'")
     
     # Plot confusion matrix
