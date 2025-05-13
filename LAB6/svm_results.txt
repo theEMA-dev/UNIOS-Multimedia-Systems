@@ -1,0 +1,49 @@
+Music Genre Classification - SVM Results (with PCA and GridSearch)
+=========================================================
+
+Dataset Summary:
+Total number of training samples: 4800
+Total number of test samples: 600
+
+Samples per genre:
+classical: 480
+disco: 480
+doesent belong anywhere: 960
+hiphop: 480
+jazz: 480
+metal: 480
+pop: 480
+reggae: 480
+rock: 480
+
+Test Set Accuracy: 0.8300
+
+Best Parameters:
+C: 50
+class_weight: balanced
+degree: 2
+gamma: 0.001
+kernel: rbf
+
+Number of features after PCA: 203
+Explained variance ratio: 0.9900
+
+Cross-validation scores: [0.71875    0.81458333 0.775      0.8        0.77291667]
+Average CV score: 0.7762 (+/- 0.0654)
+
+Classification Report:
+                         precision    recall  f1-score   support
+
+              classical       0.85      0.97      0.91        60
+                  disco       0.69      0.80      0.74        60
+doesent belong anywhere       0.99      1.00      1.00       120
+                 hiphop       0.74      0.83      0.78        60
+                   jazz       0.89      0.80      0.84        60
+                  metal       0.79      0.82      0.80        60
+                    pop       0.79      0.77      0.78        60
+                 reggae       0.90      0.58      0.71        60
+                   rock       0.73      0.73      0.73        60
+
+               accuracy                           0.83       600
+              macro avg       0.82      0.81      0.81       600
+           weighted avg       0.84      0.83      0.83       600
