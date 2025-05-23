@@ -249,6 +249,7 @@ def main():
     plt.yticks(rotation=0)
     plt.title("Normalized SVM Confusion Matrix")
     plt.tight_layout()
+    plt.savefig("LAB6/normalized_confusion_matrix.png")
     plt.show()
     
     # Seaborn heatmap for confusion matrix
@@ -259,17 +260,25 @@ def main():
     plt.ylabel("True Labels")
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
+    plt.savefig("LAB6/confusion_matrix_heatmap.png")
     plt.show()
     
     # Seaborn barplot for class-wise accuracy
     class_accuracy = conf_matrix.diagonal() / conf_matrix.sum(axis=1)
     plt.figure(figsize=(10, 6))
-    sns.barplot(x=mappings, y=class_accuracy, palette="viridis")
+    bars = sns.barplot(x=mappings, y=class_accuracy, palette="viridis")
     plt.title("Class-wise Accuracy")
     plt.xlabel("Genres")
     plt.ylabel("Accuracy")
     plt.xticks(rotation=45, ha='right')
+
+    # Add text annotations to each bar
+    for bar in bars.patches:
+        yval = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2.0, yval + 0.01, f'{yval:.2f}', ha='center', va='bottom')
+
     plt.tight_layout()
+    plt.savefig("LAB6/class_wise_accuracy.png")
     plt.show()
     
 if __name__ == "__main__":
